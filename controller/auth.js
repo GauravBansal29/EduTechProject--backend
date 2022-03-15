@@ -49,7 +49,21 @@ export const login= async(req, res)=>{
     const token= jwt.sign({userid: user._id}, process.env.JWT_SECRET , {expiresIn: "30d"});  // user login for 30 days
 
      res.cookie("token", token);
-    res.status(200).json("Successful login");
+     user.password=undefined;  // because we dont want to send password and userid in global state
+     user._id= undefined;
+    res.status(200).json(user);
+    }
+    catch(err)
+    {
+        res.status(500).json("Internal server error");
+    }
+
+}
+
+export const logout= async (req, res)=>{
+    try{
+    res.clearCookie("token");
+    res.status(200).json("Succesfully signed out");
     }
     catch(err)
     {
