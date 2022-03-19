@@ -60,6 +60,7 @@ export const login= async(req, res)=>{
 
 }
 
+// clearing cookie on backend
 export const logout= async (req, res)=>{
     try{
     res.clearCookie("token");
