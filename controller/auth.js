@@ -30,7 +30,7 @@ export const register= async (req, res)=>{
         });
         console.log("hello");
         await newuser.save();
-        return res.status(200).json("Register Successful");
+         res.status(200).json("Register Successful");
     }
     catch(err)
     {
@@ -42,20 +42,20 @@ export const login= async(req, res)=>{
     const {email, password}= req.body;
     console.log(req.body);
     const user=await  User.findOne({email});
-    if(!user) res.status(401).json("Invalid username or password");
+    if(!user) return res.status(401).json("Invalid username or password");
     const comp= await bcrypt.compare(password, user.password);
-    if(!comp) res.status(401).json("Invalid username or password");
+    if(!comp) return res.status(401).json("Invalid username or password");
     // no issues generate jwt token
-    const token= jwt.sign({userid: user._id}, process.env.JWT_SECRET , {expiresIn: "30d"});  // user login for 30 days
+    const token= jwt.sign({userid: user._id}, process.env.JWT_SECRET , {expiresIn: "20h"});  // user login for 30 days
 
      res.cookie("token", token);
      user.password=undefined;  // because we dont want to send password and userid in global state
      user._id= undefined;
-    res.status(200).json(user);
+     res.status(200).json(user);
     }
     catch(err)
     {
-        res.status(500).json("Internal server error");
+       return  res.status(500).json("Internal server error");
     }
 
 }
@@ -64,12 +64,28 @@ export const login= async(req, res)=>{
 export const logout= async (req, res)=>{
     try{
     res.clearCookie("token");
-    return res.status(200).json("Succesfully signed out");
+    res.status(200).json("Succesfully signed out");
     }
     catch(err)
     {
-        res.status(500).json("Internal server error");
+      return  res.status(500).json("Internal server error");
     }
 
+}
+
+//getting current user after jwt verify
+export const currentUser= async (req, res)=>{
+    try{
+        console.log("blavl");
+         const user = await User.findById(req.user._id).select('-password').exec;  //excluding password
+         console.log("Current_user",user);
+         return res.status(200).json(user);
+
+    }       
+    catch(err)
+    {
+        console.log("blabla");
+        return  res.status(500).json("Internal server error");
+    }
 }
 
