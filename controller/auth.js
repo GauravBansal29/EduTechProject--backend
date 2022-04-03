@@ -76,15 +76,12 @@ export const logout= async (req, res)=>{
 //getting current user after jwt verify
 export const currentUser= async (req, res)=>{
     try{
-        console.log("blavl");
          const user = await User.findById(req.user._id).select('-password').exec;  //excluding password
-         console.log("Current_user",user);
-         return res.status(200).json(user);
-
+        // console.log("Current_user",user);
+         return res.status(200).json({ok:true});
     }       
     catch(err)
     {
-        console.log("blabla");
         return  res.status(500).json("Internal server error");
     }
 }
