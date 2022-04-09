@@ -24,13 +24,17 @@ const newuserSchema= new mongoose.Schema({
         default:["Subscriber"],
         enum:["Subscriber","Instructor","Admin"]
     },
+    forgot_password_id:{
+        type:String,
+        default:""
+    },
     stripe_account_id: {
         type: String,
         default:""
     },
     stripe_seller:{},
     stripeSession:{},
-
+    
 }, {timestamps:true});
 
 let User= new mongoose.model("User", newuserSchema);

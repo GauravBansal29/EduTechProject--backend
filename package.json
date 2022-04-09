@@ -9,6 +9,7 @@
   "author": "Gaurav Bansal",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1111.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -21,6 +22,7 @@
     "mongoose": "^6.2.4",
     "mongoose-beautiful-unique-validation": "^7.1.1",
     "morgan": "^1.10.0",
+    "nanoid": "^3.3.2",
     "nodemon": "^2.0.15",
     "query-string": "^7.1.1",
     "razorpay": "^2.8.1",
