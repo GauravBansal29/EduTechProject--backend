@@ -207,3 +207,39 @@ export const generateOtp=async(req, res)=>{
     
 
 }
+
+export const verifyOtp=async (req, res)=>{
+    try{
+    const {email , otp} = req.body;
+    const user= await User.findOne({email});
+    if(!user) return res.status(400).json("This is not allowed");
+    console.log(user);
+    if(otp === user.forgot_password_id) return res.status(200).json("Successfully verified your email");
+    return res.status(402).json("Your OTP didn't match with the provided one");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const changePassword = async(req, res)=>{
+
+    try{
+        let  {email, otp, password} = req.body;
+        const user= await User.findOne({email});
+        if(!user) return res.status(400).json("This is not allowed");
+        if(otp !== user.forgot_password_id) return res.status(402).json("Your OTP didn't match with the provided one");
+        if(!password || password.length < 6) return res.status(400).json("Password is required and should be minimum 6 characters long");
+        password = await bcrypt.hash(password, 12);  //hashing with  12 rounds of salt 
+        const update_pass=await User.findOneAndUpdate({email}, {password: password});
+        if(!update_pass) return res.status(400).json("Some error occured");
+        return res.status(200).json("Password changed successfully")
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
