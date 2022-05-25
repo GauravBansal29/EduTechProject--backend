@@ -148,7 +148,7 @@ export const currentUser= async (req, res)=>{
 }
 
 export const generateOtp=async(req, res)=>{
-    // use jwt for otp so that we can use timestamps (5min validatiob)
+    // use jwt for otp so that we can use timestamps (5min validation)
     try{
     const {email}= req.body;
     const id= nanoid(6);

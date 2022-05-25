@@ -18,10 +18,14 @@ mongoose.connect(process.env.DATABASE, {
 ////////////////////////////////////////////////////////////////////////////////////
 
 const app = express();
+const maxRequestBodySize = '1mb';
+app.use(express.json({limit: maxRequestBodySize}));
+app.use(express.urlencoded({limit: maxRequestBodySize}));
+
 
 //middlewares 
 app.use(cors());
-app.use(express.json());  
+//app.use(express.json());  
 app.use(morgan("dev")); // for status codes and errors 
 app.use(cookieParser());
 

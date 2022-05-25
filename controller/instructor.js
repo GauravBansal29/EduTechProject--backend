@@ -1,5 +1,7 @@
 import User from '../models/User'
+import Course from '../models/Course'
 import queryString from 'query-string'
+
 const stripe= require('stripe')(process.env.STRIPE_SECRET);
 
 //stripe onboarding 
@@ -86,7 +88,16 @@ export const currentInstructor= async(req, res)=>{
         console.log(err);
         return res.status(500).json("Internal Server Error");
     }
+}
 
+export const instructorCourses= async(req, res)=>{
+    try{
+    const courselist= await Course.find({instructor: req.user.userid}).sort({createdAt: -1});
 
-
+    return res.status(200).json(courselist);
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }   
 }

@@ -1,5 +1,9 @@
 import AWS from 'aws-sdk'
 import {nanoid} from 'nanoid'
+import { isGeneratorFunction } from 'util/types';
+import Course from '../models/Course'
+import User from '../models/User';
+const slugify= require('slugify');
 const awsconfig= {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
@@ -38,8 +42,58 @@ const S3 =  new AWS.S3(awsconfig);
         console.log(err);
     }
  }
+// function to delete a image from s3
+export const removeImage = async(req, res)=>{
+    try{
+        const {image} = req.body();
+
+        const params= {
+            Bucket: image.Bucket,
+            Key: image.key
+        };
+
+        S3.deleteObject(params, (err, data)=>{
+            if(err)
+            {
+                console.log(err);
+                res.sendStatus(400);
+            }
+            res.send({ok:true});
+        });
+        
+    }
+    catch(err)
+     {
+         console.log(err);
+         return res.status(400).json("Image Delete Unsuccessful");   
+     }
+
+}
 
  export const createCourse= async(req, res)=>{
      console.log(req.body);
-     return res.status(200).json("course created");
+     const {name, description, price, paid}= req.body;
+    try{
+        const courseexist = await  Course.findOne({
+            slug: slugify(name.toLowerCase())
+        });
+        if(courseexist) return res.status(205).json("Try taking another title");
+     const course = new Course({
+         name,
+         description,
+         price,
+         paid,
+         instructor: req.user.userid,
+         slug: slugify(name.toLowerCase())
+     });
+     await course.save();
+
+     return res.status(200).json("Course instance created successfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
  }
+

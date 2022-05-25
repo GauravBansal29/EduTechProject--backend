@@ -1,6 +1,7 @@
 const mongoose= require("mongoose");
 
 // to create order after successfull payment 
+// Razorpay orders if required later can be used
 
 const orderSchema= new mongoose.Schema(
     {
