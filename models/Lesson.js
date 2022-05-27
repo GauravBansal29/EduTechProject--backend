@@ -5,7 +5,7 @@ const lessonSchema= new mongoose.Schema({
         type:String,
         required: true,
         minlength: 3,
-        maxlength:10,
+        maxlength:30,
     },
     slug:{
         type:String,
@@ -13,11 +13,12 @@ const lessonSchema= new mongoose.Schema({
     },
 
     content:{
-        type:{},
-        minlength: 200
+        type:Object,
+        minlength: 10
     },
-    video_link:{
-        type:String, 
+    videolink:{
+        type:Object,
+        required: true
     },
     free_preview:{
         type:Boolean,

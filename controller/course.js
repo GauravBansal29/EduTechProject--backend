@@ -3,6 +3,8 @@ import {nanoid} from 'nanoid'
 import { isGeneratorFunction } from 'util/types';
 import Course from '../models/Course'
 import User from '../models/User';
+import Lesson from '../models/Lesson';
+import {readFileSync} from 'fs'
 const slugify= require('slugify');
 const awsconfig= {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -111,4 +113,95 @@ export const getCourse= async (req, res)=>{
     }
     
 
+}
+
+export const videoUpload= async(req, res)=>{
+    try{
+        const {video}= req.files;
+        console.log(video);
+        if(!video) return res.status(400).json("No video received at input");
+        const params= {
+            Bucket:"edutechproject",
+            Key: `${nanoid()}.${video.type.split('/')[1]}`,
+            Body: readFileSync(video.path),
+            ACL: "public-read",
+            ContentType: video.type,
+        };
+
+        //upload to S3
+        S3.upload(params, (err,data)=>{
+            if(err)
+            {
+                console.log(err);
+                res.sendStatus(400);
+            }
+            console.log(data);
+            res.send(data);
+        })
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+
+}
+
+export const videoDelete= async(req, res)=>{
+    try{
+    const {video}= req.body;
+    if(!video) 
+    {
+        console.log("no video error");
+        return res.status(400).json("No video found");
+    }
+
+    const params={
+        Key: video.Key,
+        Bucket: video.Bucket
+    };
+
+    // delete from S3
+    S3.deleteObject(params, (err, data)=>{
+        if(err)
+        {
+            console.log(err);
+            res.sendStatus(400);
+        }
+        console.log(data);
+        res.send(data);
+    });
+    }
+    catch(err)
+    {
+        console.log(err.response);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const addLesson= async(req, res)=>{
+    const {slug}= req.params;
+    const ins_id= req.user.userid;
+    const {title, description, videolink}= req.body;
+    try{
+    const course= await Course.findOne({slug:slug});
+    if(course.instructor != ins_id) return res.status(401).json("Invalid User");
+    const lessonslug= slugify(slug.toLowerCase());
+    console.log(title, description, videolink);
+    const newlesson = new Lesson({
+        title:title,
+        content: description,
+        videolink: videolink,
+        slug:lessonslug
+    });
+    await newlesson.save();
+    console.log(newlesson);
+    const course_up= await Course.findOneAndUpdate({slug: slug}, { $push: {lessons: newlesson}});
+    return res.status(200).json("Lesson upload successful");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
 }
