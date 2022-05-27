@@ -103,9 +103,9 @@ export const login= async(req, res)=>{
     const {email, password}= req.body;
     console.log(req.body);
     const user=await  User.findOne({email});
-    if(!user) return res.status(401).json("Invalid username or password");
+    if(!user) return res.status(403).json("Invalid username or password");
     const comp= await bcrypt.compare(password, user.password);
-    if(!comp) return res.status(401).json("Invalid username or password");
+    if(!comp) return res.status(403).json("Invalid username or password");
     // no issues generate jwt token
     const token= jwt.sign({userid: user._id}, process.env.JWT_SECRET , {expiresIn: "20h"});  // user login for 30 days
 

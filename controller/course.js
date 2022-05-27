@@ -72,7 +72,7 @@ export const removeImage = async(req, res)=>{
 
  export const createCourse= async(req, res)=>{
      console.log(req.body);
-     const {name, description, price, paid}= req.body;
+     const {name, description, price, paid, image}= req.body;
     try{
         const courseexist = await  Course.findOne({
             slug: slugify(name.toLowerCase())
@@ -84,7 +84,8 @@ export const removeImage = async(req, res)=>{
          price,
          paid,
          instructor: req.user.userid,
-         slug: slugify(name.toLowerCase())
+         slug: slugify(name.toLowerCase()),
+         image
      });
      await course.save();
 
@@ -97,3 +98,17 @@ export const removeImage = async(req, res)=>{
     }
  }
 
+export const getCourse= async (req, res)=>{
+    const {slug}= req.params;
+    try{
+    const course = await Course.findOne({slug: slug});
+    return res.status(200).json(course);
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+    
+
+}
