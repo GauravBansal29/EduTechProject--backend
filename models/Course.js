@@ -37,7 +37,7 @@ const courseSchema = new mongoose.Schema({
         minlength:50,
     },
     image:{
-        type: String
+        type: {}
     },
     instructor:{
         type: ObjectId,

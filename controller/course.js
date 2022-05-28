@@ -48,11 +48,11 @@ const S3 =  new AWS.S3(awsconfig);
 // function to delete a image from s3
 export const removeImage = async(req, res)=>{
     try{
-        const {image} = req.body();
+        const {image} = req.body;
 
         const params= {
             Bucket: image.Bucket,
-            Key: image.key
+            Key: image.Key
         };
 
         S3.deleteObject(params, (err, data)=>{
@@ -205,4 +205,28 @@ export const addLesson= async(req, res)=>{
         console.log(err);
         return res.status(500).json("Internal Server Error");
     }
+}
+
+export const updateCourse= async(req, res)=>{
+    try{
+    const {name, description, price, paid, image}= req.body;
+    const {slug}= req.params;
+    const course = await Course.findOne({slug: slug});
+    if(req.user.userid != course.instructor) return res.status(401).json("Access Unauthorised");
+    const courseupd= await Course.findOneAndUpdate({slug:slug}, {
+        name,
+        description,
+        price,
+        paid,
+        image
+         });
+         return res.status(200).json("Course Updated Successfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+
+
 }
