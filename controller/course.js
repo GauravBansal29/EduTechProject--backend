@@ -17,8 +17,9 @@ const S3 =  new AWS.S3(awsconfig);
  export const imageUpload=async (req,res)=>{
     try{
         const {image}= req.body;
+        console.log(image);
         if(!image) return res.status(400).json("No Image Found");
-        const base64data= new Buffer.from(image.replace(/^data:image\/w+;base64,/, ""), "base64");
+        const base64data= new Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
         const type= image.split(';')[0].split('/')[1];
         const params= {
             Bucket:"edutechproject",
