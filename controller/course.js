@@ -209,7 +209,7 @@ export const addLesson= async(req, res)=>{
 
 export const updateCourse= async(req, res)=>{
     try{
-    const {name, description, price, paid, image}= req.body;
+    const {name, description, price, paid, image, lessons}= req.body;
     const {slug}= req.params;
     const course = await Course.findOne({slug: slug});
     if(req.user.userid != course.instructor) return res.status(401).json("Access Unauthorised");
@@ -218,7 +218,9 @@ export const updateCourse= async(req, res)=>{
         description,
         price,
         paid,
-        image
+        image,
+        slug: slugify(name.toLowerCase()),
+        lessons
          });
          return res.status(200).json("Course Updated Successfully");
     }
@@ -229,4 +231,35 @@ export const updateCourse= async(req, res)=>{
     }
 
 
+}
+
+export const updateCourseLessons= async (req, res)=>{
+    try{
+        const {lessons} = req.body;
+        const {slug}= req.params;
+        const course = await Course.findOne({slug: slug});
+        if(req.user.userid != course.instructor) return res.status(401).json("Access Unauthorised");
+        const courseupd= await Course.findOneAndUpdate({slug:slug}, {
+            lessons
+             });
+        return res.status(200).json("Course Lessons List Updated Successfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const deleteLesson= async (req, res)=>{
+    try{
+        const {id}= req.params;
+        const lesson= await Lesson.findOneAndDelete({_id: id});
+        return res.status(200).json("Lesson Deleted Succesfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
 }
