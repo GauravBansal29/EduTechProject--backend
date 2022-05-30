@@ -284,3 +284,37 @@ export const updateLesson= async (req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const publishCourse= async (req, res)=>{
+    try{
+        const {slug}= req.params;
+        const course= await Course.findOne({slug: slug}).select("instructor").exec();
+        if(course.instructor != req.user.userid) return req.status(401).json("Unauthorised");
+
+        const updated = await Course.findOneAndUpdate({slug: slug}, {published:true}, {new:true});
+
+        return res.status(200).json("Course published successfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const unpublishCourse =  async (req, res)=>{
+    try{
+        const {slug}= req.params;
+        const course= await Course.findOne({slug: slug}).select("instructor").exec();
+        if(course.instructor != req.user.userid) return req.status(401).json("Unauthorised");
+
+        const updated = await Course.findOneAndUpdate({slug: slug}, {published:false}, {new:true});
+
+        return res.status(200).json("Course unpublished successfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
