@@ -318,3 +318,15 @@ export const unpublishCourse =  async (req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const getpublishedCourses= async (req, res)=>{
+    try{
+        const allcourses= await Course.find({published:true}).populate('instructor', '_id name').exec();
+        return res.status(200).json(allcourses);
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
