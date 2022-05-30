@@ -22,7 +22,7 @@ const lessonSchema= new mongoose.Schema({
     },
     free_preview:{
         type:Boolean,
-        default: true
+        default: false
     }
 }, 
 {timestamps:true});

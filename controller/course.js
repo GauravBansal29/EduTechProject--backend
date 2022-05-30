@@ -183,7 +183,7 @@ export const videoDelete= async(req, res)=>{
 export const addLesson= async(req, res)=>{
     const {slug}= req.params;
     const ins_id= req.user.userid;
-    const {title, description, videolink}= req.body;
+    const {title, description, videolink, free_preview}= req.body;
     try{
     const course= await Course.findOne({slug:slug});
     if(course.instructor != ins_id) return res.status(401).json("Invalid User");
@@ -193,7 +193,8 @@ export const addLesson= async(req, res)=>{
         title:title,
         content: description,
         videolink: videolink,
-        slug:lessonslug
+        slug:lessonslug,
+        free_preview: free_preview
     });
     await newlesson.save();
     console.log(newlesson);
@@ -256,6 +257,26 @@ export const deleteLesson= async (req, res)=>{
         const {id}= req.params;
         const lesson= await Lesson.findOneAndDelete({_id: id});
         return res.status(200).json("Lesson Deleted Succesfully");
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const updateLesson= async (req, res)=>{
+    try{
+        const {title , content ,videolink, slug, free_preview}= req.body;
+        const {id}= req.params;
+        const lesson= await Lesson.findOneAndUpdate({_id: id}, {
+            title ,
+            content,
+            videolink,
+            slug,
+            free_preview
+        });
+        return res.status(200).json("Lesson updated successfully");
     }
     catch(err)
     {
