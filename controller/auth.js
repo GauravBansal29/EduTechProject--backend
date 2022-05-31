@@ -69,7 +69,7 @@ export const sendTestEmail =async (req, res)=>{
 export const register= async (req, res)=>{
     try{
 
-        let {name,email,password}= req.body;
+        let {name,email,contact,password}= req.body;
 
         //validation
         if(!name) return res.status(400).json("Name is required");
@@ -87,6 +87,7 @@ export const register= async (req, res)=>{
         const newuser=  new User({
            name: name,
            email: email,
+           contact:contact,
            password: password
         });
         console.log("hello");

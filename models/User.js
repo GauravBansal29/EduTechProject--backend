@@ -11,6 +11,9 @@ const newuserSchema= new mongoose.Schema({
         trim:true,
         required:true
     }, 
+    contact:{
+        type:Number
+    },
     password:{
         type:String,
         required:true
@@ -34,6 +37,12 @@ const newuserSchema= new mongoose.Schema({
     },
     stripe_seller:{},
     stripeSession:{},
+    pay_contactid:{
+        type:String
+    },
+    fund_account:{
+        type:String
+    }
     
 }, {timestamps:true});
 
