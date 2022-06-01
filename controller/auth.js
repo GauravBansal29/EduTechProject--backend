@@ -244,3 +244,17 @@ export const changePassword = async(req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const getUser=async(req, res)=>{
+    try{
+        const id= req.user.userid;
+        const my_user= await User.findById(id).select('-password').exec();
+        return res.status(200).json(my_user);
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}

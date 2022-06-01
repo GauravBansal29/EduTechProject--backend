@@ -75,7 +75,7 @@ export const removeImage = async(req, res)=>{
 
  export const createCourse= async(req, res)=>{
      console.log(req.body);
-     const {name, description, price, paid, image}= req.body;
+     const {name, description, price, paid, image, category}= req.body;
     try{
         const courseexist = await  Course.findOne({
             slug: slugify(name.toLowerCase())
@@ -86,6 +86,7 @@ export const removeImage = async(req, res)=>{
          description,
          price,
          paid,
+         category,
          instructor: req.user.userid,
          slug: slugify(name.toLowerCase()),
          image
@@ -104,7 +105,7 @@ export const removeImage = async(req, res)=>{
 export const getCourse= async (req, res)=>{
     const {slug}= req.params;
     try{
-    const course = await Course.findOne({slug: slug});
+    const course = await Course.findOne({slug: slug}).populate('instructor', '_id name').exec();
     return res.status(200).json(course);
     }
     catch(err)
@@ -210,7 +211,7 @@ export const addLesson= async(req, res)=>{
 
 export const updateCourse= async(req, res)=>{
     try{
-    const {name, description, price, paid, image, lessons}= req.body;
+    const {name, description, price, paid, image, lessons, category}= req.body;
     const {slug}= req.params;
     const course = await Course.findOne({slug: slug});
     if(req.user.userid != course.instructor) return res.status(401).json("Access Unauthorised");
@@ -220,6 +221,7 @@ export const updateCourse= async(req, res)=>{
         price,
         paid,
         image,
+        category,
         slug: slugify(name.toLowerCase()),
         lessons
          });
@@ -323,6 +325,41 @@ export const getpublishedCourses= async (req, res)=>{
     try{
         const allcourses= await Course.find({published:true}).populate('instructor', '_id name').exec();
         return res.status(200).json(allcourses);
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
+
+export const checkEnrollment= async (req, res)=>{
+    try{
+    const myid= req.user.userid;
+    const {slug}= req.params;
+    const course= await Course.find({slug: slug , users:{$in:myid}});
+    console.log(course);
+    return res.status(200).json({
+        answer: course
+    });
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+
+}
+
+export const freeEnrollment= async (req, res)=>{
+    try{
+        const {id}= req.params;
+        const myid= req.user.userid;
+        const course= await Course.findOne({_id:id});
+        if(!course || course.paid) return res.status(401).json("This is not allowed");
+        const courseupd= await Course.findOneAndUpdate({_id: id},{$push:{users:myid}});
+        const usrupd= await User.findOneAndUpdate({_id:myid},{$push:{courses:id}});
+        return res.status(200).json("Free enrollment completed");
     }
     catch(err)
     {

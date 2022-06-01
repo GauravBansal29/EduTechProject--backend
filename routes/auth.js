@@ -1,5 +1,5 @@
 const router= require('express').Router();
-import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword} from '../controller/auth'
+import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword, getUser} from '../controller/auth'
 import {jwtSigned} from '../middlewares/index'
 
 
@@ -16,6 +16,7 @@ router.get('/logout', logout);
 //whenever you want to access a protected route you need to verify JWT token then you can get the user
 router.get('/current-user',jwtSigned , currentUser);
 router.get('/send-test-email',sendTestEmail );
-
+// update context 
+router.get('/get-userdata', jwtSigned, getUser);
 module.exports= router;
 

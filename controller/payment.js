@@ -2,7 +2,7 @@
 import axios from 'axios'
 import User from '../models/User'
 import Order from "../models/Order"
-
+import Course from "../models/Course"
 
 const Razorpay= require("razorpay");
 
@@ -81,6 +81,49 @@ export const addFundAccount= async(req,res)=>{
 
 }
 
+export const makePayout= async(req, res)=>{
+  try{
+      const {amount, instructorid}= req.body;
+      const ins= await User.findById(instructorid);
+      if(!ins) return res.status(400).json("Instructor not found");
+     const fund_account= ins.fund_account;
+     if(!fund_account) return res.status(400).json("Fund account not found");
+    // amount to be payout (amount)
+    // fund_ account_id from instructor 
+
+    const key_id= process.env.RAZORPAY_KEY_ID;
+    const key_secret= process.env.RAZORPAY_KEY_SECRET;
+    const encodedBase64Token = Buffer.from(`${key_id}:${key_secret}`).toString('base64');
+    const authorization = `Basic ${encodedBase64Token}`;
+    const response = await axios({
+        url: 'https://api.razorpay.com/v1/payouts',
+        method: 'post',
+        headers: {
+            'Authorization': authorization,
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "account_number": process.env.RAZORPAYX_ACCOUNT_NUMBER,
+            "fund_account_id": fund_account,
+            "amount": amount,
+            "currency": "INR",
+            "mode": "IMPS",
+            "purpose": "payout",
+            "queue_if_low_balance": false,
+    }
+    });
+    console.log(response.data);
+    // response.data.id to be pushed into instructor 
+    const ins_upd= await User.findByIdAndUpdate(instructorid, {$push:{payouts:response.data.id}});
+    return res.status(200).json(response.data);
+  }
+  catch(err)
+  {
+    console.log(err);
+    return res.status(500).json("Internal Server Error");
+  }
+}
+
 export const getRazorpayKey= (req, res)=>{
    res.send({key: process.env.RAZORPAY_KEY_ID});
 }
@@ -117,6 +160,8 @@ export const createOrder = async(req, res)=>{
 
 export const payOrder= async (req, res)=>{
     try{
+        const courseid = req.params.id;
+        const userid = req.user.userid;
         const {amount, razorpayPaymentId , razorpayOrderId , razorpaySignature} = req.body;
 
         const newOrder= new Order({
@@ -129,12 +174,15 @@ export const payOrder= async (req, res)=>{
             }
         });
         await newOrder.save();
-
+        console.log(newOrder);
+        //User update
+        const courseupd= await Course.findOneAndUpdate({_id: courseid},{$push:{users:userid}});
+        const usrupd= await User.findOneAndUpdate({_id:userid},{$push:{courses:courseid}, $push:{payments: newOrder._id}});
         res.status(200).json("Successful payment");
-
     }
     catch(err)
     {
+        console.log(err);
         res.status(500).json(err);
     }
 }

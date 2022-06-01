@@ -42,6 +42,15 @@ const newuserSchema= new mongoose.Schema({
     },
     fund_account:{
         type:String
+    },
+    courses:{
+        type:Array
+    },
+    payments:{
+        type:Array
+    },
+    payouts:{
+        type:Array
     }
     
 }, {timestamps:true});
