@@ -177,7 +177,7 @@ export const payOrder= async (req, res)=>{
         console.log(newOrder);
         //User update
         const courseupd= await Course.findOneAndUpdate({_id: courseid},{$push:{users:userid}});
-        const usrupd= await User.findOneAndUpdate({_id:userid},{$push:{courses:courseid}, $push:{payments: newOrder._id}});
+        const usrupd= await User.findOneAndUpdate({_id:userid},{$push:{ courses:courseid, payments: newOrder._id}});
         res.status(200).json("Successful payment");
     }
     catch(err)

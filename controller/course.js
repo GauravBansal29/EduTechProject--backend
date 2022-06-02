@@ -367,3 +367,18 @@ export const freeEnrollment= async (req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const userCourses= async(req, res)=>{
+    try{
+        const userid= req.user.userid;
+        const user= await User.findById(userid).exec();
+        const courses= await Course.find({_id: {$in: user.courses}}).populate("instructor", "_id name").exec();  //get all courses whose id is in user.courses
+        return res.status(200).json(courses);
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}
