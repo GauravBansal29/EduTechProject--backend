@@ -1,5 +1,5 @@
 const router= require('express').Router();
-import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword, getUser} from '../controller/auth'
+import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword, getUser, updateUser} from '../controller/auth'
 import {jwtSigned} from '../middlewares/index'
 
 
@@ -18,5 +18,7 @@ router.get('/current-user',jwtSigned , currentUser);
 router.get('/send-test-email',sendTestEmail );
 // update context 
 router.get('/get-userdata', jwtSigned, getUser);
+// update user details
+router.post('/update-user', jwtSigned, updateUser);
 module.exports= router;
 

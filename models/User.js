@@ -27,6 +27,9 @@ const newuserSchema= new mongoose.Schema({
         default:["Subscriber"],
         enum:["Subscriber","Instructor","Admin"]
     },
+    interest:{
+        type:String
+    },
     forgot_password_id:{
         type:String,
         default:""

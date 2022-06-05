@@ -177,12 +177,28 @@ export const payOrder= async (req, res)=>{
         console.log(newOrder);
         //User update
         const courseupd= await Course.findOneAndUpdate({_id: courseid},{$push:{users:userid}});
-        const usrupd= await User.findOneAndUpdate({_id:userid},{$push:{ courses:courseid, payments: newOrder._id}});
-        res.status(200).json("Successful payment");
+        const usrupd= await User.findOneAndUpdate({_id:userid},{$push:{ courses:courseid, payments: razorpayOrderId}});
+        return res.status(200).json("Successful payment");
     }
     catch(err)
     {
         console.log(err);
-        res.status(500).json(err);
+        return res.status(500).json(err);
+    }
+}
+
+export const fetchPayment= async(req, res)=>{
+    try{
+    const {orderid}= req.params;
+    const userid = req.user.userid;
+    const user= await User.findById(userid);
+    var instance = new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret:process.env.RAZORPAY_KEY_SECRET });
+    const mypayment = await instance.orders.fetchPayments(orderid);
+    return res.status(200).json(mypayment);
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
     }
 }

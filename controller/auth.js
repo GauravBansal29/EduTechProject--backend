@@ -258,3 +258,23 @@ export const getUser=async(req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const updateUser= async(req, res)=>{
+    try{
+        const id= req.user.userid;
+        const {name, contact, interest}= req.body;
+        const my_user= await User.findByIdAndUpdate(id,{
+            name:name,
+            contact:contact,
+            interest: interest
+        } );
+
+        return res.status(200).json("Updated user");
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+}

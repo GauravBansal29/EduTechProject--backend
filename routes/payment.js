@@ -1,7 +1,7 @@
 const router= require('express').Router();
 
 import {jwtSigned} from '../middlewares/index'
-import {addContact, addFundAccount, getRazorpayKey, createOrder, payOrder, makePayout} from '../controller/payment'
+import {addContact, addFundAccount, getRazorpayKey, createOrder, payOrder, makePayout, fetchPayment} from '../controller/payment'
 
 
 // controller 
@@ -15,4 +15,5 @@ router.post('/payout', jwtSigned, makePayout );
 router.get('/get-razorpay-key', jwtSigned, getRazorpayKey);
 router.post('/create-order', jwtSigned, createOrder);
 router.post('/pay-order/:id', jwtSigned, payOrder);
+router.get('/fetch-payment/:orderid', jwtSigned, fetchPayment);
 module.exports= router;
