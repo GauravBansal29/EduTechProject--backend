@@ -202,3 +202,28 @@ export const fetchPayment= async(req, res)=>{
         return res.status(500).json("Internal Server Error");
     }
 }
+
+export const fetchPayout= async(req, res)=>{
+    try{
+    const {payoutid}=req.params;
+    const key_id= process.env.RAZORPAY_KEY_ID;
+    const key_secret= process.env.RAZORPAY_KEY_SECRET;
+    const encodedBase64Token = Buffer.from(`${key_id}:${key_secret}`).toString('base64');
+    const authorization = `Basic ${encodedBase64Token}`;
+    const {data} = await axios({
+        url: `https://api.razorpay.com/v1/payouts/${payoutid}`,
+        method: 'get',
+        headers: {
+            'Authorization': authorization,
+            'Content-Type': 'application/json',
+        }
+    });
+    return res.status(200).json(data);
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json("Internal Server Error");
+    }
+
+}
