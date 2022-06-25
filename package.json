@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "npm run build",
-    "start": "nodemon -r esm index.js"
+    "start": "node index.js"
   },
   "author": "Gaurav Bansal",
   "license": "ISC",
