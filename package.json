@@ -4,6 +4,7 @@
   "description": "Backend for edtech platform ",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run build",
     "start": "nodemon -r esm index.js"
   },
   "author": "Gaurav Bansal",
