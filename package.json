@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "webpack",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm start"
   },
   "author": "Gaurav Bansal",
   "license": "ISC",
