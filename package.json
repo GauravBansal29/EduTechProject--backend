@@ -7,6 +7,7 @@
     "start": "node index.js",
     "heroku-postbuild": "npm start"
   },
+  "node": "16.13.1",
   "author": "Gaurav Bansal",
   "license": "ISC",
   "dependencies": {
