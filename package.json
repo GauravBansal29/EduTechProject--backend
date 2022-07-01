@@ -8,6 +8,7 @@
     "heroku-postbuild": "npm start"
   },
   "node": "16.13.1",
+  "type": "module",
   "author": "Gaurav Bansal",
   "license": "ISC",
   "dependencies": {
