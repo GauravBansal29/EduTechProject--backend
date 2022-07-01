@@ -7,7 +7,7 @@ import Lesson from '../models/Lesson';
 import {readFileSync} from 'fs'
 const slugify= require('slugify');
 const awsconfig= {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    accessKeyId: process.env.AWS_ACCESS_KEY_IDS,
     secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
     region:process.env.AWS_REGION,
     apiVersion:process.env.AWS_API_VERSION,

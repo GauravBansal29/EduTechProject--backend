@@ -4,8 +4,7 @@
   "description": "Backend for edtech platform ",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run build",
-    "start": "node index.js"
+    "start": "nodemon -r esm index.js"
   },
   "author": "Gaurav Bansal",
   "license": "ISC",
@@ -33,9 +32,5 @@
     "razorpay": "^2.8.1",
     "slugify": "^1.6.5",
     "stripe": "^8.210.0"
-  },
-  "engines": {
-    "node": ">=16.13.1",
-    "npm": ">=8.1.2" 
- }
+  }
 }
