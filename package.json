@@ -4,7 +4,8 @@
   "description": "Backend for edtech platform ",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "npm install && npm run build"
   },
   "author": "Gaurav Bansal",
   "license": "ISC",
