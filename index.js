@@ -45,7 +45,8 @@ app.get('/api/csrf-token', (req, res)=>{
   })
 
 const port = process.env.PORT || 8000 ;
-app.listen(port, ()=>{
+const host = '0.0.0.0'
+app.listen(port,host, ()=>{
     console.log(`server is running on ${port}`);
 })
 
