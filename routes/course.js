@@ -1,3 +1,7 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
+
 import formidable from "express-formidable"
 const router= require('express').Router();
 import {imageUpload, createCourse, removeImage, getCourse, videoUpload, videoDelete, addLesson, updateCourse, updateCourseLessons, deleteLesson, updateLesson, publishCourse, unpublishCourse, getpublishedCourses, checkEnrollment, freeEnrollment, userCourses} from '../controller/course'

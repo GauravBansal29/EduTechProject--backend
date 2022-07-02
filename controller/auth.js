@@ -1,3 +1,7 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
+
 import jwt from "jsonwebtoken"
 import User from "../models/User";
 import AWS from 'aws-sdk'

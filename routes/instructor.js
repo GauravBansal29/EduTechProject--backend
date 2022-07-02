@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 // all instructor related routes
 import { jwtSigned, isInstructor } from '../middlewares/index'
 import { makeInstructor, getAccountStatus, currentInstructor, instructorCourses } from '../controller/instructor';

@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 const mongoose= require('mongoose');
 // taken an array in role because a single id can perform multiple roles
 const newuserSchema= new mongoose.Schema({

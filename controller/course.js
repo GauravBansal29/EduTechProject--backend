@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 import AWS from 'aws-sdk'
 import {nanoid} from 'nanoid'
 import { isGeneratorFunction } from 'util/types';

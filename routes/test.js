@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 import { getKey, getOrder, paymentOrder} from 'mern_pay'
 
 const router= require('express').Router();

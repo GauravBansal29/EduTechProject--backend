@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 import User from '../models/User'
 import Course from '../models/Course'
 // jwt token there or not middleware

@@ -1,4 +1,5 @@
-
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 const mongoose= require('mongoose');
 // new Course created by instructor 
 // each course will have many lessons given by the lesson schema

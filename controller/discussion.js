@@ -1,3 +1,6 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 import Discussion from "../models/Discussion"
 import User from "../models/User"
 
