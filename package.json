@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "npm start"
   },
-  "node": "16.13.1",
-  "type": "commonjs",
+  "engines": {
+    "node": "v16.13.1"
+},
   "author": "Gaurav Bansal",
   "license": "ISC",
   "dependencies": {
