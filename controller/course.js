@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk'
 import {nanoid} from 'nanoid'
-import { isGeneratorFunction } from 'util/types';
 import Course from '../models/Course'
 import User from '../models/User';
 import Lesson from '../models/Lesson';
