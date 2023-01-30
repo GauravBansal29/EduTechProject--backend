@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Backend for edtech platform ",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "nodemon -r esm index.js"
+    "start": "nodemon index.js"
   },
   "author": "Gaurav Bansal",
   "license": "ISC",

@@ -1,7 +1,9 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const router= require('express').Router();
-import {jwtSigned} from '../middlewares/index'
-import {addDiscussion, getLessonDiscussion} from '../controller/discussion'
+import {jwtSigned} from '../middlewares/index.js'
+import {addDiscussion, getLessonDiscussion} from '../controller/discussion.js'
 router.get('/course-discussions/:courseid',jwtSigned , getLessonDiscussion);
 router.post('/adddiscussion', jwtSigned,addDiscussion );
-module.exports= router;
+export default router;
 

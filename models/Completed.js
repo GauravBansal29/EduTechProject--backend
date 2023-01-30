@@ -1,4 +1,5 @@
-
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const mongoose= require('mongoose');
 // new Course created by instructor 
 // each course will have many lessons given by the lesson schema
@@ -24,5 +25,5 @@ const completedSchema = new mongoose.Schema({
 
 const Completed = new mongoose.model("Completed", completedSchema);
 
-module.exports= Completed;
+export default Completed;
 

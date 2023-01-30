@@ -1,8 +1,10 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 import AWS from 'aws-sdk'
 import {nanoid} from 'nanoid'
-import Course from '../models/Course'
-import User from '../models/User';
-import Lesson from '../models/Lesson';
+import Course from '../models/Course.js'
+import User from '../models/User.js';
+import Lesson from '../models/Lesson.js';
 import {readFileSync} from 'fs'
 const slugify= require('slugify');
 const awsconfig= {

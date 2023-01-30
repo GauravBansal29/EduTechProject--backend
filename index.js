@@ -1,3 +1,13 @@
+import {} from 'dotenv/config'
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
+
+import auth from "./routes/auth.js"
+import completed from "./routes/completed.js"
+import course from "./routes/course.js"
+import discussion from "./routes/discussion.js"
+import instructor from "./routes/instructor.js"
+import payment from "./routes/payment.js"
 const express= require('express');
 const cors= require('cors');
 const morgan = require('morgan');
@@ -7,7 +17,8 @@ const csrf= require('csurf');
 const mongoose = require('mongoose');  // for database 
 
 
-require("dotenv").config();  // for environment variables
+
+
 //////////////////////////////////mongoose connect////////////////////////////////////
 // in mongoose.connect we need to paas database url in mongo atlas which we are extracting from env using dotenv module 
 mongoose.connect(process.env.DATABASE, {
@@ -34,10 +45,17 @@ const csrfProtection= csrf({cookie:true});
 
 app.use(csrfProtection);
 // defining routes
-fs.readdirSync("./routes").map((r)=>{
-    app.use("/api" , require(`./routes/${r}`));
+// fs.readdirSync("./routes").map((r)=>{
+    
+//     app.use("/api" , require(`./routes/${r}`));
    
-})
+// })
+app.use("/api", auth);
+app.use("/api", completed);
+app.use("/api", course);
+app.use("/api", discussion);
+app.use("/api", instructor);
+app.use("/api", payment);
 
 app.get('/api/csrf-token', (req, res)=>{
     console.log(req.csrfToken());

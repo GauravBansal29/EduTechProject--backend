@@ -1,6 +1,8 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const router= require('express').Router();
-import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword, getUser, updateUser} from '../controller/auth'
-import {jwtSigned} from '../middlewares/index'
+import {register, login, logout ,currentUser, sendTestEmail, generateOtp, verifyOtp, changePassword, getUser, updateUser} from '../controller/auth.js'
+import {jwtSigned} from '../middlewares/index.js'
 
 
 // controller 
@@ -20,5 +22,5 @@ router.get('/send-test-email',sendTestEmail );
 router.get('/get-userdata', jwtSigned, getUser);
 // update user details
 router.post('/update-user', jwtSigned, updateUser);
-module.exports= router;
+export default router;
 

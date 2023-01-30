@@ -1,5 +1,7 @@
-import User from '../models/User'
-import Course from '../models/Course'
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
+import User from '../models/User.js'
+import Course from '../models/Course.js'
 import queryString from 'query-string'
 
 const stripe= require('stripe')(process.env.STRIPE_SECRET);

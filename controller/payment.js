@@ -1,8 +1,9 @@
-
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 import axios from 'axios'
-import User from '../models/User'
-import Order from "../models/Order"
-import Course from "../models/Course"
+import User from '../models/User.js'
+import Order from "../models/Order.js"
+import Course from "../models/Course.js"
 
 const Razorpay= require("razorpay");
 

@@ -1,3 +1,5 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const mongoose= require("mongoose");
 
 // to create order after successfull payment 
@@ -19,4 +21,4 @@ const orderSchema= new mongoose.Schema(
 
 const Order= new mongoose.model("Order", orderSchema);
 
-module.exports = Order;
+export default Order;

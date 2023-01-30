@@ -1,7 +1,9 @@
-import Completed from "../models/Completed"
-import User from "../models/User"
-import Course from "../models/Course"
-import Lesson from "../models/Lesson"
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
+import Completed from "../models/Completed.js"
+import User from "../models/User.js"
+import Course from "../models/Course.js"
+import Lesson from "../models/Lesson.js"
 export const markComplete= async (req, res)=>{
     try{
         const userid=req.user.userid;

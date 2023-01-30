@@ -1,7 +1,9 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const router= require('express').Router();
 
-import {jwtSigned} from '../middlewares/index'
-import {addContact, addFundAccount, getRazorpayKey, createOrder, payOrder, makePayout, fetchPayment, fetchPayout} from '../controller/payment'
+import {jwtSigned} from '../middlewares/index.js'
+import {addContact, addFundAccount, getRazorpayKey, createOrder, payOrder, makePayout, fetchPayment, fetchPayout} from '../controller/payment.js'
 
 
 // controller 
@@ -17,4 +19,4 @@ router.post('/create-order', jwtSigned, createOrder);
 router.post('/pay-order/:id', jwtSigned, payOrder);
 router.get('/fetch-payment/:orderid', jwtSigned, fetchPayment);
 router.get('/fetch-payout/:payoutid',jwtSigned, fetchPayout )
-module.exports= router;
+export default router;

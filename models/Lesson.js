@@ -1,3 +1,5 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 const mongoose= require('mongoose');
 
 const lessonSchema= new mongoose.Schema({
@@ -29,4 +31,4 @@ const lessonSchema= new mongoose.Schema({
 
 const Lesson = new mongoose.model("Lesson", lessonSchema);
 
-module.exports= Lesson;
+export default Lesson;

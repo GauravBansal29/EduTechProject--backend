@@ -1,6 +1,8 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 // all instructor related routes
-import { jwtSigned, isInstructor } from '../middlewares/index'
-import { makeInstructor, getAccountStatus, currentInstructor, instructorCourses } from '../controller/instructor';
+import { jwtSigned, isInstructor } from '../middlewares/index.js'
+import { makeInstructor, getAccountStatus, currentInstructor, instructorCourses } from '../controller/instructor.js';
 const router = require("express").Router();
 // making instructor for stripe callback
 router.post('/makeinstructor',jwtSigned, makeInstructor);
@@ -10,4 +12,4 @@ router.post('/get-account-status', jwtSigned , getAccountStatus);
 router.get('/current-instructor', jwtSigned, currentInstructor);
 // get all courses to display in the instructor dashboard 
 router.get('/instructor-courses',jwtSigned, isInstructor, instructorCourses);
-module.exports = router;
+export default router;

@@ -1,5 +1,7 @@
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
 import jwt from "jsonwebtoken"
-import User from "../models/User";
+import User from "../models/User.js";
 import AWS from 'aws-sdk'
 import {nanoid} from 'nanoid'
 const bcrypt = require('bcrypt');

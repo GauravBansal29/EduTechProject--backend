@@ -1,5 +1,7 @@
-import User from '../models/User'
-import Course from '../models/Course'
+import {createRequire} from "module"
+const require= createRequire(import.meta.url);
+import User from '../models/User.js'
+import Course from '../models/Course.js'
 // jwt token there or not middleware
 // i will send the jwt token in the request cookies and this middleware will identify whether jwt is compromised or not
 const expressJwt= require('express-jwt');
