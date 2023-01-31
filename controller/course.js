@@ -8,17 +8,22 @@ import Lesson from '../models/Lesson.js';
 import {readFileSync} from 'fs'
 const slugify= require('slugify');
 const awsconfig= {
+    region: process.env.AWS_REGION,
+    apiVersion: process.env.AWS_API_VERSION,
+    credentials:
+    {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
-    region:process.env.AWS_REGION,
-    apiVersion:process.env.AWS_API_VERSION,
+    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY
+    }
 };
 
 const S3 =  new AWS.S3(awsconfig);
  export const imageUpload=async (req,res)=>{
+    
     try{
         const {image}= req.body;
         console.log(image);
+        console.log(awsconfig);
         if(!image) return res.status(400).json("No Image Found");
         const base64data= new Buffer.from(image.replace(/^data:image\/\w+;base64,/, ""), "base64");
         const type= image.split(';')[0].split('/')[1];
