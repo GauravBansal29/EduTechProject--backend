@@ -40,7 +40,10 @@ app.use(cors());
 app.use(morgan("dev")); // for status codes and errors 
 app.use(cookieParser());
 
-const csrfProtection= csrf({cookie:true});
+const csrfProtection= csrf({cookie:{
+    httpOnly: true,
+    secure: false
+}});
 
 
 app.use(csrfProtection);
