@@ -46,7 +46,7 @@ const csrfProtection= csrf({cookie:{
 }});
 
 
-app.use(csrfProtection);
+// app.use(csrfProtection);
 // defining routes
 // fs.readdirSync("./routes").map((r)=>{
     
