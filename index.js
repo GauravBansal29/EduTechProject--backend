@@ -36,7 +36,7 @@ app.use(express.urlencoded({limit: maxRequestBodySize}));
 
 //middlewares 
 app.use(cors({
-    origin: "https://coursebay.vercel.app/", 
+    origin: "*",
     credentials: true
 }));
 //app.use(express.json());  
