@@ -120,9 +120,10 @@ export const login= async(req, res)=>{
         httpOnly:true,
         maxAge:3600000*5,
         secure:true,
+        domain: 'coursebay.vercel.app',
         sameSite:'none'
      });
-     
+
      user.password=undefined;  // because we dont want to send password and userid in global state
      user._id= undefined;
      res.status(200).json(user);
