@@ -120,7 +120,7 @@ export const login= async(req, res)=>{
         httpOnly:true,
         maxAge:3600000*5,
         secure:true,
-        domain: 'coursebay.vercel.app',
+        domain: 'vercel.app',
         sameSite:'none'
      });
 
