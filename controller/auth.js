@@ -120,7 +120,6 @@ export const login= async(req, res)=>{
         httpOnly:true,
         maxAge:3600000*5,
         secure:true,
-        domain: 'onrender.com',
         sameSite:'none'
      });
 
