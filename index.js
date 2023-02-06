@@ -45,7 +45,9 @@ app.use(cookieParser());
 
 const csrfProtection= csrf({cookie:{
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production'
+    maxAge: 3600000 * 5,
+    secure: true,
+    sameSite: 'none'
 }});
 
 

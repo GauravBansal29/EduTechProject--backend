@@ -115,7 +115,14 @@ export const login= async(req, res)=>{
     // no issues generate jwt token
     const token= jwt.sign({userid: user._id}, process.env.JWT_SECRET , {expiresIn: "20h"});  // user login for 30 days
 
-     res.cookie("token", token);
+     //res.cookie("token", token);
+     res.cookie('token',token,{
+        httpOnly:true,
+        maxAge:3600000*5,
+        secure:true,
+        sameSite:'none'
+     });
+     
      user.password=undefined;  // because we dont want to send password and userid in global state
      user._id= undefined;
      res.status(200).json(user);
